@@ -1,4 +1,6 @@
-﻿using Business.Concrete;
+﻿using Business.Abstract;
+using Business.Concrete;
+using DataAccess.Abstract;
 using DataAccess.Concrete.EntityFramework;
 using DataAccess.Concrete.InMemory;
 
@@ -21,7 +23,9 @@ static void ProductTest()
     {
         Console.WriteLine(result.Message);
     }
+
     
+
 }
 
 static void CategoryTest()
