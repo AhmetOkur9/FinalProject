@@ -13,11 +13,11 @@ using System.Threading.Tasks;
 
 namespace DataAccess.Concrete.EntityFramework
 {
-    public class EfProductDal : EfEntityRepositoryBase<Product, NorthindContext>, IProductDal
+    public class EfProductDal : EfEntityRepositoryBase<Product, NorthwindContext>, IProductDal
     {
         public List<ProductDetailDto> GetProductDetails()
         {
-            using (NorthindContext context = new NorthindContext())
+            using (NorthwindContext context = new NorthwindContext())
             {
                 var result = from p in context.Products
                              join c in context.Categories
