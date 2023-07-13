@@ -27,8 +27,8 @@ namespace Core.DataAccess.EntitiyFramework
         {
             using (TContext context = new TContext())
             {
-                var updatedEntity = context.Entry(entity);
-                updatedEntity.State = EntityState.Modified;
+                var deletedEntity = context.Entry(entity);
+                deletedEntity.State = EntityState.Deleted;
                 context.SaveChanges();
             }
         }
@@ -51,7 +51,12 @@ namespace Core.DataAccess.EntitiyFramework
 
         public void Update(TEntity entity)
         {
-            throw new NotImplementedException();
+            using (TContext context = new TContext())
+            {
+                var updatedEntity = context.Entry(entity);
+                updatedEntity.State = EntityState.Modified;
+                context.SaveChanges();
+            }
         }
     }
 }
