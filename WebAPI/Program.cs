@@ -19,16 +19,25 @@ internal class Program
     {
         var builder = WebApplication.CreateBuilder(args);
 
+        var MyAllowSpecificOrigins = "_myAllowSpecificOrigins"; //Cors
+
         // Add services to the container.
 
         builder.Services.AddControllers();
+        
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
         //Startup();
-        //builder.Services.AddSingleton<IProductService, ProductManager>();
-        //builder.Services.AddSingleton<IProductDal, EfProductDal>();
-        
+        builder.Services.AddCors(options =>
+        {
+            options.AddPolicy(name: MyAllowSpecificOrigins,
+                              policy =>
+                              {
+                                  policy.WithOrigins("http://localhost:4200/").AllowAnyHeader().AllowAnyOrigin();
+                              });
+        });//Cors
+
         var tokenOptions = builder.Configuration.GetSection("TokenOptions").Get<TokenOptions>();
 
         builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -58,7 +67,10 @@ internal class Program
             builder.RegisterModule(new AutofacBusinessModule());
         });
 
+
+
         var app = builder.Build();
+
 
         // Configure the HTTP request pipeline.
         if (app.Environment.IsDevelopment())
@@ -66,6 +78,8 @@ internal class Program
             app.UseSwagger();
             app.UseSwaggerUI();
         }
+
+        app.UseCors(MyAllowSpecificOrigins);//Cors
 
         app.UseHttpsRedirection();
 

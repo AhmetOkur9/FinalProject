@@ -10,12 +10,12 @@ namespace WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]  //ATTIRIBUTE
-    public class ProductsController : ControllerBase
+    public class productsController : ControllerBase
     {
         //Louse coupled
         IProductService _productService;
 
-        public ProductsController(IProductService productService)
+        public productsController(IProductService productService)
         {
             _productService = productService;
         }
@@ -23,6 +23,8 @@ namespace WebAPI.Controllers
         [HttpGet("getall")]
         public IActionResult GetAll()
         {
+            Thread.Sleep(5000);
+
             var result = _productService.GetAll();
 
             if (result.Success)
